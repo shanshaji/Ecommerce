@@ -1,0 +1,21 @@
+<h2>HELLO WORLD</h2>
+<a href="/say/goodbye">Visit goodbye page</a>
+
+<h3>Listing Fruits(3)</h3>
+<!-- unordered list ---->
+<ul>
+	<li>Mango</li>
+	<li>jackfruit</li>
+	<li>orange</li>
+</ul>
+
+<% fruits = ["mango","pineapple","apple","kiwi","pear","banana","jackfruit"] %>
+
+<h3> Listing Fruits(<%= fruits.length %> ) </h3>
+
+<ol>
+	<% fruits.each do |fruit| %>
+
+		<li><%= fruit.capitalize %></li>
+	<% end %>
+</ol>

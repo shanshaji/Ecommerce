@@ -1,0 +1,56 @@
+<h2> Your Cart </h2>
+
+<% if @cart_line_items.empty? %>
+	<p> Your cart is empty. Shop <%= link_to "here", products_path %> </p>
+<% else %>
+	<table border="1">
+		<thead>
+			<tr>
+				<th> # </th>
+				<th>  </th>
+				<th> Name </th>
+				<th> Price </th>
+				<th> Quantity </th>
+				<th> Total </th>
+			</tr>
+		</thead>
+		<tbody>
+			<% sum=0 %>
+
+			<% @cart_line_items.each_with_index do |cart_line_item, index| %>
+			<tr>
+				<td> <%= index+1 %> </td>
+				<td> <%= image_tag(cart_line_item.product.cover, size: "150x125") %> </td>
+				<td> <%= link_to cart_line_item.product.name, cart_line_item.product, target: "_blank" %> </td>
+				<td> <%= cart_line_item.product.price %> </td>
+				<td> <%= form_for cart_line_item do |f| %>
+						<label>Quantity : </label>
+						<%= f.select :quantity, (1..10).to_a %> <br/>
+						<%= f.submit "update" %>
+					<%end%> 
+				</td>
+				<td> <%=cart_line_item.product.price * cart_line_item.quantity %>
+					 <%sum += cart_line_item.product.price * cart_line_item.quantity %></td>
+
+				<td> <%= link_to "remove", cart_line_item_path(cart_line_item.id), method: :delete, data: {confirm: "Are you sure you want to remove this item from cart?"} %> </td>
+			</tr>
+			<%end%>
+		</tbody>
+	</table>
+	<h3> Cart Total : Rs.<%= sum %> </h3>
+<% end %>
+<h3> Checkout </h3>
+<%= form_for Order.new do |f| %>
+	<h5> Select Address </h5>
+	<ol>
+		<% current_user.addresses.each do |address| %>
+			<li><label for = "address_id"> <%= address.name %></label>
+				<%=f.radio_button :address_id, address.id %>
+				<%=address.details %>-
+				<%=address.street %> 
+			</li>
+		<%end%>
+	</ol>
+	<%= f.submit "Checkout" %>
+<%end%>
+

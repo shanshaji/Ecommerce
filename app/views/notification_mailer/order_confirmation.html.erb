@@ -1,0 +1,20 @@
+<p> Hello <%= @order.user.username %>, <br/>
+	Your order has been successfully placed. Total of the order is <%= @order.total %> </p>
+
+	<h2> Order Summary </h2>
+	<h2> <%= @order.order_number %> </h2>
+	<p> <%= @order.order_date %> INR <%= @order.total%>
+	</p>
+	<ol>
+		<% @order.order_line_items.each do |line_item| %>
+		<li>
+			<%= line_item.product.name %> INR 
+			<%= line_item.price %> 
+			<%=line_item.quantity %>
+		</li>
+			
+		<%end%>
+	</ol>
+
+	<p> Thank you for shopping with us.  Keep calm and trust this guy </p>
+	<img src="http://cdn.playbuzz.com/cdn/02d3929c-9bc3-4e7f-8b76-19ca3efe6895/d89544c1-c489-4da4-af8a-0d3c1d662370.jpg" height="242" width="242">

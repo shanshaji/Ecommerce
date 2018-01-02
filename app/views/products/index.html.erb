@@ -1,0 +1,37 @@
+<% if @products.empty? %>
+	<h2> No products found </h2>
+
+<% else%>
+<h2> Listing products(<%= @products.length %>)</h2>
+
+<ol>
+	<% @products.each do |product| %>
+	<li> 
+		<%= link_to product.name,product_path(product.id) %>
+		- INR <%= product.price%> - 
+		<%= product.description %> -
+		<% if !product.category.nil? %>
+			<%=product.category.name %>- 
+		<%end%>
+		<%=link_to"show",product_path(product.id) %>
+		<% if user_signed_in? %>
+			<%= form_for Wishlist.new do |f| %> 
+				<%= f.hidden_field :product_id, value: product.id %>
+				<%= f.submit "Add To Wishlist" %>
+			<%end%>	
+			<%= form_for CartLineItem.new do |f| %>
+				<%= f.hidden_field :quantity, value: 1 %> 
+				<%= f.hidden_field :product_id, value: product.id %>
+				<%= f.submit "Add To Cart" %>
+			<%end%>
+		<% else %>
+			<p> You need to sign in before adding products to your cart </p>
+		<% end %>
+
+	</li>
+	<% end %>
+<%end %><br/>
+
+<% if (user_signed_in?)&&(can? :create, Product.new) %>
+	<%= link_to "Add Product", new_product_path %>
+<%end%>

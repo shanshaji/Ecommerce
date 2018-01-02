@@ -1,0 +1,21 @@
+<h3>Add Categories </h3>
+
+
+<%=form_for @category do |f| %>
+	<% if @category.errors.any? %>
+		<h3> This errors prohibited from form to be saved </h3>
+		<ul>
+			<% @category.errors.full_messages.each do |msg| %>
+				<li><%= msg %></li>
+			<%end%>
+		</ul>
+	<%end%>
+
+
+	<label for="category_name"> Name: </label> <br/>
+	<%=f.text_field :name %> <span id="nameMessage"> </span> <br/>
+	
+	
+	<%= f.submit %> 
+<%end%>
+		

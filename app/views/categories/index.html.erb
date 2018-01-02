@@ -1,0 +1,15 @@
+<h2> Listing Categories(<%= @categories.length %>)</h2>
+
+<ol>
+	<% @categories.each do |category| %>
+	<li> 
+		
+		<%= link_to category.name,category_path(category.id) %> 
+		(<%= category.products.length %>) 
+	</li>
+		
+	<% end %>
+	<br/>
+	<% if (user_signed_in?) &&(can? :create, Category) %>
+	<%= link_to "Add Category",new_category_path %>
+	<%end%>
