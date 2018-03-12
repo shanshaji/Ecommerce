@@ -1,0 +1,19 @@
+<% if @review.valid? %>
+	$('#reviewNotice').html("Thank you for your review");
+	$.growl.notice({ message: "Thank you for your review" });
+
+	//$('#reviewList').append("<li><%= @review.body %> </li>")
+
+	$('#reviewList').append("<%= escape_javascript render 'review' %>");
+	$('#new_review')[0].reset();
+	$('#reviewError').hide();
+
+  	$('#leaveReview').modal('hide');
+
+	setTimeout(function(){
+		$('#reviewNotice').slideUp();
+	}, 3000);
+<% else %>
+	$('#reviewError').append("<%= escape_javascript render 'error' %>");
+	$.growl.error({ message: "Error in form" });
+<%end%>

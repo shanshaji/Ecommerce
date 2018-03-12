@@ -13,7 +13,7 @@ class Ability
     if user.nil?
         can :read, [Category, Product]
     elsif user.role? "admin"
-        can :manage, [Category, Product, Review]
+        can :manage, [Category, Product, Review, Brand, Coupon]
     elsif user.role? "customer"
         can :read, [Category, Product]
         can [:create, :read], Review

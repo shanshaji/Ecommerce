@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'admin/index'
+
   resources :coupons
   resources :brands
   resources :addresses
@@ -10,7 +12,7 @@ Rails.application.routes.draw do
 	resources :categories
 	resources :cart_line_items
 	resources :products # routes for index, new
-	get 'say/hello'
+	get 'admin/index'
 	root 'products#index'
 	get 'say/goodbye'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

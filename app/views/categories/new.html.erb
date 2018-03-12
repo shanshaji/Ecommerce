@@ -13,7 +13,12 @@
 
 
 	<label for="category_name"> Name: </label> <br/>
-	<%=f.text_field :name %> <span id="nameMessage"> </span> <br/>
+	<%=f.text_field :name %> <span id="nameMessage"> </span> <br/>	
+
+	<div class ="field">
+		<%= f.label :parent_id %>
+		<%= f.collection_select :parent_id, Category.order(:name), :id, :name, include_blank: true %>
+	</div>
 	
 	
 	<%= f.submit %> 

@@ -2,36 +2,96 @@
 	<h2> No products found </h2>
 
 <% else%>
-<h2> Listing products(<%= @products.length %>)</h2>
 
-<ol>
-	<% @products.each do |product| %>
-	<li> 
-		<%= link_to product.name,product_path(product.id) %>
-		- INR <%= product.price%> - 
-		<%= product.description %> -
-		<% if !product.category.nil? %>
-			<%=product.category.name %>- 
-		<%end%>
-		<%=link_to"show",product_path(product.id) %>
-		<% if user_signed_in? %>
-			<%= form_for Wishlist.new do |f| %> 
-				<%= f.hidden_field :product_id, value: product.id %>
-				<%= f.submit "Add To Wishlist" %>
-			<%end%>	
-			<%= form_for CartLineItem.new do |f| %>
-				<%= f.hidden_field :quantity, value: 1 %> 
-				<%= f.hidden_field :product_id, value: product.id %>
-				<%= f.submit "Add To Cart" %>
-			<%end%>
-		<% else %>
-			<p> You need to sign in before adding products to your cart </p>
-		<% end %>
+<!-- Page Content -->
+    <div class="container">
 
-	</li>
-	<% end %>
-<%end %><br/>
+      <div class="row">
 
-<% if (user_signed_in?)&&(can? :create, Product.new) %>
-	<%= link_to "Add Product", new_product_path %>
-<%end%>
+        <div class="col-lg-3">
+
+          <h1 class="my-4">Marco Polo</h1>
+
+          
+          <div class="list-group" id="menu" data-toggle="collapse">
+          	<%Category.roots.each do|category| %>
+                <%= link_to category, class: "list-group-item" do %>
+                    <%=category.name%> <!-- <span class="badge badge-primary badge-pill"><%#= category.children.length %> </span> -->
+                <% end %>
+            <% end %>
+          </div>
+          
+
+        </div>
+        <!-- /.col-lg-3 -->
+
+        <div class="col-lg-9">
+
+          <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+            <ol class="carousel-indicators">
+              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+              <% @products.each do|product| %>
+              <div class="carousel-item ">
+                <%= link_to image_tag(product.cover.url, size: "900x350", class: "d-block img-fluid", alt: "Second slide" ),product_path(product.id) if product.cover %>
+              </div>
+                <%end%>
+              <div class="carousel-item active">
+                 <%= link_to image_tag(@products.last.cover.url, size: "900x350", class: "d-block img-fluid", alt: "First slide" ),product_path(@products.last.id) if @products.last.cover %>
+                <!-- <img class="d-block img-fluid" src="http://filmnews.news/wp-content/uploads/2017/11/ant-man-and-the-wasp-1013134-1280x0.jpg" size="900x350" alt="First slide"> -->
+              </div>
+            </div>
+            
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+
+          <div class="row">
+             <% @products.each do|product| %>
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="card h-100">
+                <%= link_to image_tag(product.cover.url, size: "700x400", class: "card-img-top", alt: "" ),product_path(product.id) if product.cover %>
+                <div class="card-body">
+                  <h4 class="card-title">
+                    <%= link_to product.name,product_path(product.id) %>
+                  </h4>
+                  <h5><%=product.price%> INR</h5>
+                  <p class="card-text"><%=product.description.truncate(50)%></p>
+                </div>
+                <div class="card-footer">
+                  <small class="text-muted">
+                      <% if user_signed_in? %>
+                        <%= form_for Wishlist.new do |f| %> 
+                          <%= f.hidden_field :product_id, value: product.id %>
+                          <%= f.submit "Add To Wishlist",class: "btn btn-primary btn-sm" %>
+                        <%end%> 
+                        <%= form_for CartLineItem.new do |f| %>
+                          <%= f.hidden_field :quantity, value: 1 %> 
+                          <%= f.hidden_field :product_id, value: product.id %>
+                          <%= f.submit "Add To Cart",class: "btn btn-secondary btn-sm" %>
+                        <%end%>
+                      <%end%>                
+                  </small>
+                </div>
+              </div>
+
+            </div>
+            <%end%>
+          </div>
+        </div>
+
+
+<%end %></br>
+
+ <% if user_signed_in? %>
+      <p> Your current IP (<%= current_user.current_sign_in_ip %>) </p>
+    <%end%>

@@ -13,20 +13,32 @@
 
   <div class="field">
     <%= f.label :code %>
-    <%= f.text_field :code %>
+    <%= f.text_field :code, id: :coupon_code %>
   </div>
 
   <div class="field">
     <%= f.label :discount %>
-    <%= f.number_field :discount %>
+    <%= f.number_field :discount, id: :coupon_discount %>
   </div>
 
   <div class="field">
     <%= f.label :expiry_date %>
-    <%= f.datetime_select :expiry_date %>
+    <%= f.text_field :expiry_date, id: :coupon_expiry_date %>
   </div>
 
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+  <script>
+  $(document).ready(function() {
+    $( "#coupon_expiry_date" ).datepicker({
+       dateFormat: "yy-mm-dd" ,
+       changeMonth: true,
+       minDate: 0,
+       maxDate: 30,
+       numberOfMonths:2
+    });
+
+  });
+  </script>

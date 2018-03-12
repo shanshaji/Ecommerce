@@ -1,0 +1,91 @@
+ <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <div class="navbar-brand">
+          <% if user_signed_in? %>
+          Welcome 
+          <div class="btn-group dropright">
+            <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             <%= current_user.username.capitalize %>
+            </button>
+            <div class="dropdown-menu">
+              <!-- Dropdown menu links -->
+               <li class="dropdown-item">
+                <%= link_to "My Account ", edit_user_registration_path,class: "dropdown-item" %> 
+              </li>
+              <hr/>
+               <li class="dropdown-item">
+                <%= link_to "My Wishlist ", wishlists_path,class: "dropdown-item" %> 
+              </li>
+              <hr/>
+              <li class="dropdown-item" >
+                  <%= link_to cart_line_items_path, class: "dropdown-item" do %>
+                    My Cart <span class="badge badge-info"><%= current_user.cart_line_items.pluck(:quantity).inject(:+) %> </span>
+                  <% end %>
+              </li>
+              <hr/>
+              <li class="dropdown-item">
+                <%= link_to "My addresses", addresses_path,class: "dropdown-item" %> 
+              </li>
+              <hr/>
+              <% if current_user.role? "admin" %>
+                <li class="dropdown-item">
+                  <%= link_to "Admin Privileges", admin_index_path,class: "dropdown-item" %> 
+                </li>
+                <hr/>
+              <% end %>
+              <li class="dropdown-item">
+                <%= link_to "Logout", destroy_user_session_path, method: :delete,class: "dropdown-item" %>
+              </li>             
+            </div>
+          </div>
+
+      
+          <% else %>
+            <%= link_to "Hi.Please sign in", new_user_session_path ,class: "nav-link"%>
+          
+        <% end %>
+        </div>
+        <!-- <a class="navbar-brand" href="#">Start Bootstrap</a> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item  <%= controller.controller_name == 'products' ? 'active' : '' %>">
+              <a class="nav-link" href="/products">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <!-- <li class="nav-item <%#= controller.controller_name == 'products' ? 'active' : '' %>">
+              <a class="nav-link" href="/products">Products</a>
+            </li> -->
+            <!-- <li class="nav-item <%#= controller.controller_name == 'categories' ? 'active' : '' %>">
+              <a class="nav-link" href="/categories">Categories</a>
+            </li> -->
+             <% if user_signed_in? %>
+               <!-- <li class="nav-item <%#= controller.controller_name == 'addresses' ? 'active' : '' %>">
+                <%#= link_to "Addresses", addresses_path,class: "nav-link" %> 
+              </li> -->
+              <li class="nav-item <%= controller.controller_name == 'cart_line_items' ? 'active' : '' %>">
+                <%= link_to cart_line_items_path, class: "nav-link" do %>
+                    My Cart <span class="badge badge-info"><%= current_user.cart_line_items.pluck(:quantity).inject(:+) %> </span>
+                  <% end %> 
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to "Register", new_user_registration_path,class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Login", new_user_session_path ,class: "nav-link"%>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="mb-4">
+    </div>
+
+    <div class="container"> 
+    

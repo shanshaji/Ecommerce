@@ -1,0 +1,55 @@
+<% if user_signed_in? %>
+      Welcome <%= current_user.username.capitalize %>|
+      <%= link_to "Addresses", addresses_path %> |
+      <%= link_to "My Cart (#{current_user.cart_line_items.pluck(:quantity).inject(:+)})", cart_line_items_path %>|
+      <%= link_to "Account Setting", edit_user_registration_path %> |
+      <%= link_to "Logout", destroy_user_session_path, method: :delete %>|
+
+    <% else %>
+      <%= link_to "Register", new_user_registration_path %>|
+      <%= link_to "Login", new_user_session_path %>|
+    <%end%>
+
+  	<%= link_to "Categories", categories_path %> |
+  	<%= link_to "Products", products_path %>
+    <br/>
+
+
+
+
+
+
+
+
+
+
+          <div class="list-group"  role="tablist">
+            <%Category.roots.each do|category| %>
+              <%= link_to category, class: "list-group-item #{category.name == @category.name ? 'active' : ''} " do %><span data-toggle="list" role="tab" href="#<%=@category.name%> " id="myList_<%=category.name%>"> </span>
+                    <%=category.name%> <span class="badge badge-primary badge-pill"><%= category.children.length %> </span>
+                <% end %>
+                <% end %>
+
+          </div>
+
+          <div class="tab-content">
+            <%Category.roots.each do|category| %>
+            <% if category.has_children? %>
+                  <script>
+                    $(function () {
+                      $('#myList_<%=category.name%>').tab('show')
+                    })
+                    $('a[data-toggle="list"]').on('shown.bs.tab', function (e) {
+                      e.target // newly activated tab
+                      e.relatedTarget // previous active tab
+                    })
+                  </script>
+                  <% category.children.each do|subcat| %>
+                  <%= link_to subcat, class: "tab-pane #{category.name == @category.name ? 'active' : ''} " do %>
+                  <span role="tabpanel" id="<%=@category.name%>"> </span>
+                    <%=subcat.name%> 
+                  <% end %>
+                  <%end%>
+                <%end%>
+                <%end%>
+          </div>

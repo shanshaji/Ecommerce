@@ -1,6 +1,8 @@
 class CartLineItemsController < ApplicationController
+	#before_action :set_cart, only: [:create, :destroy]
 
 	def create
+		@cart_line_item.add_product(params)
 		@cart_line_item = CartLineItem.new(cart_line_item_params)
 		@cart_line_item.user_id = current_user.id
 		
@@ -12,6 +14,7 @@ class CartLineItemsController < ApplicationController
 	def index
 		# CartLineItem.where('user_id = ?', current_user.id)
 		@cart_line_items = current_user.cart_line_items # To find only the cart line items for that currently logged in user
+		@address = Address.new
 	end
 
 	def destroy

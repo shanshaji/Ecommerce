@@ -29,9 +29,11 @@ class AddressesController < ApplicationController
 
     respond_to do |format|
       if @address.save
+        format.js
         format.html { redirect_to @address, notice: 'Address was successfully created.' }
         format.json { render :show, status: :created, location: @address }
       else
+        format.js
         format.html { render :new }
         format.json { render json: @address.errors, status: :unprocessable_entity }
       end
@@ -57,6 +59,7 @@ class AddressesController < ApplicationController
   def destroy
     @address.destroy
     respond_to do |format|
+      format.js
       format.html { redirect_to addresses_url, notice: 'Address was successfully destroyed.' }
       format.json { head :no_content }
     end

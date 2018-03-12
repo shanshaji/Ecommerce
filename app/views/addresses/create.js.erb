@@ -1,0 +1,11 @@
+<% if @address.valid? %>
+	$.growl.notice({ message: "Successfully added" });
+
+
+	$('#addressList').append("<%= escape_javascript render 'address' %>");
+	$('#new_address')[0].reset();
+  	$('#exampleModalLong').modal('hide');
+
+<% else %>
+	$.growl.error({ message: "Error in form" });
+<%end%>

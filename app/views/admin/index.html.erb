@@ -1,0 +1,8 @@
+<ul>
+	<% if (user_signed_in?)&&(can? :create, Product.new) %>
+		<li><%= link_to "Add Product", new_product_path %></li>
+		<li><%= link_to "Add Category",new_category_path %></li>
+		<li><%= link_to 'New Brand', new_brand_path %></li>
+		<li><%= link_to 'New Coupon', new_coupon_path %></li>
+	<%end%>
+</ul>

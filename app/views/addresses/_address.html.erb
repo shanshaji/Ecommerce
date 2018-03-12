@@ -1,0 +1,6 @@
+<li id="address_<%=@address.id%>"><label for = "address_id"> <%= @address.name %></label> <hr/>
+					<%#=f.radio_button :address_id, @address.id %>
+					<%=@address.details %>
+					<%=@address.street %> -
+					<%= link_to "delete", address_path(@address.id), method: :delete, data: { confirm: "Are you sure you want to delete this address"}, remote: true %>
+				</li>
